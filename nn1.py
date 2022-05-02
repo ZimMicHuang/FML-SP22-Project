@@ -53,25 +53,12 @@ nn1 = nn.Sequential(Flatten(),
 ## Standard Training
 ######################
 
-optimizer = optim.SGD(nn1.parameters(), lr=0.25)
-print("Initializing standard NN training; learning rate 0.25")
-for e in range(10):
-    train_err, train_loss = epoch(loader_train, nn1, optimizer, device, mode = "train")
-    test_err, test_loss = epoch(loader_test, nn1, None, device, mode = "test")
-    print("Epoch {e}: Training Error: {train_err} Test Error: {test_err}".format(e=e,train_err=train_err, test_err=test_err))
 optimizer = optim.SGD(nn1.parameters(), lr=0.1)
-print("learning rate 0.25")
-for e in range(10):
+print("Initializing standard NN training; learning rate 0.1")
+for e in range(30):
     train_err, train_loss = epoch(loader_train, nn1, optimizer, device, mode = "train")
     test_err, test_loss = epoch(loader_test, nn1, None, device, mode = "test")
     print("Epoch {e}: Training Error: {train_err} Test Error: {test_err}".format(e=e,train_err=train_err, test_err=test_err))
-optimizer = optim.SGD(nn1.parameters(), lr=0.05)
-print("learning rate 0.05")
-for e in range(10):
-    train_err, train_loss = epoch(loader_train, nn1, optimizer, device, mode = "train")
-    test_err, test_loss = epoch(loader_test, nn1, None, device, mode = "test")
-    print("Epoch {e}: Training Error: {train_err} Test Error: {test_err}".format(e=e,train_err=train_err, test_err=test_err))
-
 
 
 ######################

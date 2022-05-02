@@ -58,7 +58,11 @@ def fgsm(model, X, y, epsilon=1e-8):
     return epsilon * delta.grad.detach().sign()
 
 
-print("FGSM: Attacked error rate:", epoch_adv(loader_test, nn1, device, fgsm, epsilon = 0.5)[0])
+print("FGSM: Attacked error rate:", 
+      epoch_adv(loader_test, nn1, optimizer,  device, 
+                mode = None,
+                algo_adv = fgsm,
+                epsilon = 8/255)[0])
 
 
 ######################
@@ -66,3 +70,70 @@ print("FGSM: Attacked error rate:", epoch_adv(loader_test, nn1, device, fgsm, ep
 ######################
 
 
+nn1_fgsm = nn.Sequential(Flatten(), 
+                    nn.Linear(3072,100), nn.ReLU(), 
+                    nn.Linear(100,100), nn.ReLU(),
+                    nn.Linear(100,100), nn.ReLU(),
+                    nn.Linear(100,10)
+                    ).to(device)
+
+optimizer = optim.SGD(nn1_fgsm.parameters(), lr=0.2)
+print("Initializing standard NN training; learning rate 0.2")
+for e in range(15):
+    train_err, train_loss = epoch_adv(loader_train, nn1_fgsm, optimizer, device, mode = "train",
+                                      algo_adv = fgsm,
+                                      epsilon = 8/255)
+    test_err, test_loss = epoch(loader_test, nn1_fgsm, None, device, mode = "test")
+    test_err_adv, test_loss_adv = epoch_adv(loader_test, nn1_fgsm, optimizer, device, mode = "train",
+                                      algo_adv = fgsm,
+                                      epsilon = 8/255)
+    print('''epoch_adv {e}: Training Error: {train_err} 
+          Test Error: {test_err} 
+          Robust Error: {test_err_adv}''' 
+              .format(e=e,train_err=train_err, test_err=test_err, test_err_adv= test_err_adv))
+optimizer = optim.SGD(nn1_fgsm.parameters(), lr=0.1)
+print("Initializing standard NN training; learning rate 0.1")
+for e in range(15):
+    train_err, train_loss = epoch_adv(loader_train, nn1_fgsm, optimizer, device, mode = "train",
+                                      algo_adv = fgsm,
+                                      epsilon = 8/255)
+    test_err, test_loss = epoch(loader_test, nn1_fgsm, None, device, mode = "test")
+    test_err_adv, test_loss_adv = epoch_adv(loader_test, nn1_fgsm, optimizer, device, mode = "train",
+                                      algo_adv = fgsm,
+                                      epsilon = 8/255)
+    print('''epoch_adv {e}: Training Error: {train_err} 
+          Test Error: {test_err} 
+          Robust Error: {test_err_adv}''' 
+              .format(e=e,train_err=train_err, test_err=test_err, test_err_adv= test_err_adv))
+optimizer = optim.SGD(nn1_fgsm.parameters(), lr=0.025)
+print("Initializing standard NN training; learning rate 0.05")
+for e in range(15):
+    train_err, train_loss = epoch_adv(loader_train, nn1_fgsm, optimizer, device, mode = "train",
+                                      algo_adv = fgsm,
+                                      epsilon = 8/255)
+    test_err, test_loss = epoch(loader_test, nn1_fgsm, None, device, mode = "test")
+    test_err_adv, test_loss_adv = epoch_adv(loader_test, nn1_fgsm, optimizer, device, mode = "train",
+                                      algo_adv = fgsm,
+                                      epsilon = 8/255)
+    print('''epoch_adv {e}: Training Error: {train_err} 
+          Test Error: {test_err} 
+          Robust Error: {test_err_adv}''' 
+              .format(e=e,train_err=train_err, test_err=test_err, test_err_adv= test_err_adv))
+
+
+######################
+## FGSM: Robuest Eval
+######################
+
+from robustbench.eval import benchmark
+clean_acc, robust_acc = benchmark(nn1,
+                                  dataset='cifar10',
+                                  threat_model='Linf',
+                                  eps = 8/255
+                                  )
+
+clean_acc_fgsm, robust_acc_fgsm = benchmark(nn1_fgsm,
+                                  dataset='cifar10',
+                                  threat_model='Linf',
+                                  eps = 8/255
+                                  )
