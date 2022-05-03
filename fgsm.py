@@ -17,7 +17,7 @@ from robustbench.eval import benchmark
 ## FGSM: Attack
 ######################
 
-def fgsm(model, X, y, epsilon=1e-8):
+def fgsm(model, X, y, epsilon=8/255):
     """ Construct FGSM adversarial examples on the examples X"""
     delta = torch.zeros_like(X, requires_grad=True)
     loss = nn.CrossEntropyLoss()(model(X + delta), y)
@@ -58,8 +58,9 @@ def main():
     
     
     nn1_fgsm = CNN()
-            
-    train_arr_fgsm = train_adv(loader_train,loader_test,model=nn1_fgsm,algo_adv=fgsm)
+    optimizer = optim.SGD(nn1_fgsm.parameters(), lr=0.1)
+    train_arr_fgsm = train_adv(loader_train,loader_test,model=nn1_fgsm,algo_adv=fgsm,
+                               epoch=10,alpha=0.1)
             
     
     
@@ -80,6 +81,6 @@ def main():
                                       )
     
     torch.save(nn1_fgsm, 'cifar10_nn1_fgsm.pkl')
-    nn1_fgsm = torch.load('cifar10_nn1_fgsm.pkl')
+#    nn1_fgsm = torch.load('cifar10_nn1_fgsm.pkl')
     
 main()

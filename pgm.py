@@ -15,7 +15,7 @@ from robustbench.eval import benchmark
 
 
 ######################
-## PGM: Attack
+## PGD: Attack
 ######################
 
 def pgd(model, X, y, eps, alpha, n):
@@ -47,7 +47,7 @@ def main():
     
     
     ######################
-    ## PGM: Attack
+    ## PGD: Attack
     ######################
     
     print(
@@ -70,7 +70,6 @@ def main():
     
     nn1_pgd = CNN()
     optimizer = optim.SGD(nn1_pgd.parameters(), lr=0.1)
-    
     train_arr_pgd = train_adv(loader_train,loader_test,model=nn1_pgd,algo_adv=pgd,alpha=0.1,n=50)
     
     
@@ -111,4 +110,4 @@ def main():
     torch.save(nn1_pgd, 'cifar10_nn1_pgd.pkl')
     nn1_pgd = torch.load('cifar10_nn1_pgd.pkl')
     
-main()
+#main()
