@@ -1,0 +1,180 @@
+Accuracy for class: plane is 63.1 %
+Accuracy for class: car   is 64.1 %
+Accuracy for class: bird  is 43.1 %
+Accuracy for class: cat   is 13.5 %
+Accuracy for class: deer  is 30.5 %
+Accuracy for class: dog   is 45.3 %
+Accuracy for class: frog  is 61.3 %
+Accuracy for class: horse is 67.0 %
+Accuracy for class: ship  is 56.3 %
+Accuracy for class: truck is 58.2 %
+Accuracy of the network on the 10000 test images: 0.5024
+
+PGD: Attacked error rate: 0.9791
+Initializing standard NN training; learning rate 0.1
+epoch_adv 0: Training Error: 0.79722 
+              Test Error: 0.6545 
+              Robust Error: 0.7525
+epoch_adv 1: Training Error: 0.75124 
+              Test Error: 0.6144 
+              Robust Error: 0.7404
+epoch_adv 2: Training Error: 0.74086 
+              Test Error: 0.589 
+              Robust Error: 0.7366
+epoch_adv 3: Training Error: 0.73358 
+              Test Error: 0.563 
+              Robust Error: 0.7115
+epoch_adv 4: Training Error: 0.7276 
+              Test Error: 0.5667 
+              Robust Error: 0.7172
+epoch_adv 5: Training Error: 0.72652 
+              Test Error: 0.5837 
+              Robust Error: 0.7281
+epoch_adv 6: Training Error: 0.72256 
+              Test Error: 0.5605 
+              Robust Error: 0.7141
+epoch_adv 7: Training Error: 0.71884 
+              Test Error: 0.5514 
+              Robust Error: 0.7111
+epoch_adv 8: Training Error: 0.7213 
+              Test Error: 0.5416 
+              Robust Error: 0.7061
+epoch_adv 9: Training Error: 0.71698 
+              Test Error: 0.5607 
+              Robust Error: 0.7124
+epoch_adv 10: Training Error: 0.71614 
+              Test Error: 0.5483 
+              Robust Error: 0.7102
+epoch_adv 11: Training Error: 0.71562 
+              Test Error: 0.5517 
+              Robust Error: 0.7074
+epoch_adv 12: Training Error: 0.71482 
+              Test Error: 0.5374 
+              Robust Error: 0.7097
+epoch_adv 13: Training Error: 0.71514 
+              Test Error: 0.5556 
+              Robust Error: 0.7074
+epoch_adv 14: Training Error: 0.7154 
+              Test Error: 0.5334 
+              Robust Error: 0.6991
+epoch_adv 15: Training Error: 0.71244 
+              Test Error: 0.5503 
+              Robust Error: 0.7133
+epoch_adv 16: Training Error: 0.71042 
+              Test Error: 0.533 
+              Robust Error: 0.7001
+epoch_adv 17: Training Error: 0.70734 
+              Test Error: 0.5305 
+              Robust Error: 0.7137
+epoch_adv 18: Training Error: 0.7083 
+              Test Error: 0.5574 
+              Robust Error: 0.7273
+epoch_adv 19: Training Error: 0.70966 
+              Test Error: 0.5555 
+              Robust Error: 0.7002
+epoch_adv 20: Training Error: 0.70488 
+              Test Error: 0.5376 
+              Robust Error: 0.7066
+epoch_adv 21: Training Error: 0.70586 
+              Test Error: 0.5153 
+              Robust Error: 0.6949
+epoch_adv 22: Training Error: 0.70286 
+              Test Error: 0.5184 
+              Robust Error: 0.6958
+epoch_adv 23: Training Error: 0.70116 
+              Test Error: 0.5203 
+              Robust Error: 0.7084
+epoch_adv 24: Training Error: 0.69968 
+              Test Error: 0.5276 
+              Robust Error: 0.7025
+epoch_adv 25: Training Error: 0.7009 
+              Test Error: 0.5239 
+              Robust Error: 0.7009
+epoch_adv 26: Training Error: 0.70092 
+              Test Error: 0.517 
+              Robust Error: 0.6945
+epoch_adv 27: Training Error: 0.69812 
+              Test Error: 0.5282 
+              Robust Error: 0.7076
+epoch_adv 28: Training Error: 0.6972 
+              Test Error: 0.5223 
+              Robust Error: 0.6969
+epoch_adv 29: Training Error: 0.69788 
+              Test Error: 0.5181 
+              Robust Error: 0.7068
+epoch_adv 30: Training Error: 0.69518 
+              Test Error: 0.5041 
+              Robust Error: 0.6898
+epoch_adv 31: Training Error: 0.6969 
+              Test Error: 0.5362 
+              Robust Error: 0.7135
+epoch_adv 32: Training Error: 0.69476 
+              Test Error: 0.4958 
+              Robust Error: 0.6868
+epoch_adv 33: Training Error: 0.69428 
+              Test Error: 0.5062 
+              Robust Error: 0.6924
+epoch_adv 34: Training Error: 0.69396 
+              Test Error: 0.508 
+              Robust Error: 0.6982
+epoch_adv 35: Training Error: 0.69388 
+              Test Error: 0.5462 
+              Robust Error: 0.7143
+epoch_adv 36: Training Error: 0.69262 
+              Test Error: 0.5344 
+              Robust Error: 0.7069
+epoch_adv 37: Training Error: 0.69454 
+              Test Error: 0.5126 
+              Robust Error: 0.6936
+epoch_adv 38: Training Error: 0.69246 
+              Test Error: 0.5025 
+              Robust Error: 0.6916
+epoch_adv 39: Training Error: 0.69388 
+              Test Error: 0.5017 
+              Robust Error: 0.6924
+Exception in comms call get_value:
+
+  File "/home/zjc/anaconda3/envs/torch/lib/python3.9/site-packages/spyder_kernels/comms/commbase.py", line 343, in _handle_remote_call
+    return_value = self._remote_callback(
+
+  File "/home/zjc/anaconda3/envs/torch/lib/python3.9/site-packages/spyder_kernels/comms/frontendcomm.py", line 267, in _remote_callback
+    return super(FrontendComm, self)._remote_callback(
+
+  File "/home/zjc/anaconda3/envs/torch/lib/python3.9/site-packages/spyder_kernels/comms/commbase.py", line 356, in _remote_callback
+    return self._remote_call_handlers[call_name](
+
+  File "/home/zjc/anaconda3/envs/torch/lib/python3.9/site-packages/spyder_kernels/console/kernel.py", line 227, in get_value
+    return ns[name]
+
+KeyError: 'train_arr_pgd'
+
+epoch_adv 40: Training Error: 0.68984 
+              Test Error: 0.5141 
+              Robust Error: 0.6968
+epoch_adv 41: Training Error: 0.69314 
+              Test Error: 0.5126 
+              Robust Error: 0.699
+epoch_adv 42: Training Error: 0.69246 
+              Test Error: 0.5314 
+              Robust Error: 0.7142
+epoch_adv 43: Training Error: 0.6898 
+              Test Error: 0.5073 
+              Robust Error: 0.6856
+epoch_adv 44: Training Error: 0.68842 
+              Test Error: 0.5142 
+              Robust Error: 0.7029
+epoch_adv 45: Training Error: 0.69208 
+              Test Error: 0.5067 
+              Robust Error: 0.6894
+epoch_adv 46: Training Error: 0.68982 
+              Test Error: 0.5046 
+              Robust Error: 0.6886
+epoch_adv 47: Training Error: 0.69098 
+              Test Error: 0.4954 
+              Robust Error: 0.6927
+epoch_adv 48: Training Error: 0.68818 
+              Test Error: 0.4925 
+              Robust Error: 0.6885
+epoch_adv 49: Training Error: 0.6901 
+              Test Error: 0.4976 
+              Robust Error: 0.6923
