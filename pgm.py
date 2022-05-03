@@ -53,11 +53,11 @@ def main():
     print(
           "PGD: Attacked error rate:", 
           epoch_adv(dataloader=loader_test, hypothesis=nn1, 
-                    optimizer=optim.SGD,  
+                    optimizer = None,  
                     device = device, 
                     mode = None,
                     algo_adv=pgd, 
-                    epsilon = 0.5, alpha = 0.1, n = 50)[0]
+                    epsilon = 8/255, alpha = 0.5, n = 10)[0]
           )
     
     
@@ -70,7 +70,7 @@ def main():
     
     nn1_pgd = CNN()
     optimizer = optim.SGD(nn1_pgd.parameters(), lr=0.1)
-    train_arr_pgd = train_adv(loader_train,loader_test,model=nn1_pgd,algo_adv=pgd,alpha=0.1,n=50)
+    train_arr_pgd = train_adv(loader_train,loader_test,model=nn1_pgd,algo_adv=pgd,alpha=0.5,n=10)
     
     
     # print("Initializing standard NN training; learning rate 0.")

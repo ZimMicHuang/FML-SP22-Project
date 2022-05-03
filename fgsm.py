@@ -9,7 +9,7 @@ from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 import torch.optim as optim
 from utils import *
-
+from nn1 import *
 from robustbench.eval import benchmark
 
 
@@ -45,7 +45,7 @@ def main():
             
     print("FGSM: Attacked error rate:", 
           epoch_adv(dataloader=loader_test, hypothesis=nn1, 
-                    optimizer=optim.SGD,  
+                    optimizer = None,  
                     device = device, 
                     mode = None,
                     algo_adv = fgsm,
@@ -58,9 +58,10 @@ def main():
     
     
     nn1_fgsm = CNN()
-    optimizer = optim.SGD(nn1_fgsm.parameters(), lr=0.1)
+    #optimizer = optim.SGD(nn1_fgsm.parameters(), lr=0.05)
+        
     train_arr_fgsm = train_adv(loader_train,loader_test,model=nn1_fgsm,algo_adv=fgsm,
-                               epoch=10,alpha=0.1)
+                               epsilon=0.01,n_epoch=30,lr=0.1)
             
     
     
@@ -68,11 +69,11 @@ def main():
     ## FGSM: Robuest Eval
     ######################
     
-    clean_acc, robust_acc = benchmark(nn1,
-                                      dataset='cifar10',
-                                      threat_model='Linf',
-                                      eps = 8/255
-                                      )
+    # clean_acc, robust_acc = benchmark(nn1,
+    #                                   dataset='cifar10',
+    #                                   threat_model='Linf',
+    #                                   eps = 8/255
+    #                                   )
     
     clean_acc_fgsm, robust_acc_fgsm = benchmark(nn1_fgsm,
                                       dataset='cifar10',
@@ -80,7 +81,9 @@ def main():
                                       eps = 8/255
                                       )
     
-    torch.save(nn1_fgsm, 'cifar10_nn1_fgsm.pkl')
+    torch.save(nn1_fgsm, 'cifar10_nn1_fgsm_2.pkl')
 #    nn1_fgsm = torch.load('cifar10_nn1_fgsm.pkl')
     
-main()
+# 
+# pd.DataFrame(train_arr_fgsm)
+# import pandas as pd

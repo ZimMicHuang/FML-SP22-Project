@@ -64,7 +64,7 @@ def main():
     ######################
     ## Standard Training
     ######################
-    
+    optimizer = optim.SGD(nn1.parameters(), lr=0.1)
     nn1_standard_arr = train_standard(loader_train=loader_train, loader_test=loader_test,
                                       model=nn1, n_epoch=10, opt=optim.SGD, lr=0.1)
     
@@ -81,4 +81,3 @@ def main():
     torch.save(nn1, 'cifar10_nn1_standard.pkl')
     nn1 = torch.load('cifar10_nn1_standard.pkl')
     
-main()
