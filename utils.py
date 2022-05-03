@@ -78,12 +78,12 @@ def train_adv(loader_train,loader_test, model,
         train_err, train_loss = epoch_adv(loader_train, model, optimizer, device, 
                                           mode = "train",  
                                           algo_adv = algo_adv, 
-                                          epsilon = epsilon) #kwargs:
+                                          epsilon = epsilon, **kwargs) #kwargs:
         test_err, test_loss = epoch(loader_test, model, None, device, mode = "test")
         test_err_adv, test_loss_adv = epoch_adv(loader_test, model, optimizer, device, 
                                           mode = "test",
                                           algo_adv = algo_adv,
-                                          epsilon = epsilon)
+                                          epsilon = epsilon, **kwargs)
         print('''epoch_adv {e}: Training Error: {train_err} 
               Test Error: {test_err} 
               Robust Error: {test_err_adv}''' 
