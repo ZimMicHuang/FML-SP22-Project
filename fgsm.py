@@ -25,65 +25,62 @@ def fgsm(model, X, y, epsilon=8/255):
     return epsilon * delta.grad.detach().sign()
 
 
-def main():
-    BATCH_SIZE = 100
 
-    df_train = datasets.CIFAR10(root=r'/tmp/data',download=True, train=True, 
-                                transform = transforms.ToTensor())
-    df_test = datasets.CIFAR10(root=r'/tmp/data',download=True, train=False, 
-                                transform = transforms.ToTensor())
-    loader_train = DataLoader(df_train, batch_size = BATCH_SIZE, shuffle=True)
-    loader_test = DataLoader(df_test, batch_size = BATCH_SIZE, shuffle=True)
-    device = torch.device("cpu")
+BATCH_SIZE = 100
+
+df_train = datasets.CIFAR10(root=r'/tmp/data',download=True, train=True, 
+                            transform = transforms.ToTensor())
+df_test = datasets.CIFAR10(root=r'/tmp/data',download=True, train=False, 
+                            transform = transforms.ToTensor())
+loader_train = DataLoader(df_train, batch_size = BATCH_SIZE, shuffle=True)
+loader_test = DataLoader(df_test, batch_size = BATCH_SIZE, shuffle=True)
+device = torch.device("cpu")
 
 
-    nn1 = torch.load('cifar10_nn1_standard.pkl')
-            
-    ######################
-    ## FGSM: Attack
-    ######################
-            
-    print("FGSM: Attacked error rate:", 
-          epoch_adv(dataloader=loader_test, hypothesis=nn1, 
-                    optimizer = None,  
-                    device = device, 
-                    mode = None,
-                    algo_adv = fgsm,
-                    epsilon = 8/255)[0])
-    
-    
-    ######################
-    ## FGSM: Training
-    ######################
-    
-    
-    nn1_fgsm = CNN()
-    #optimizer = optim.SGD(nn1_fgsm.parameters(), lr=0.05)
+nn1 = torch.load('cifar10_nn1_standard.pkl')
         
-    train_arr_fgsm = train_adv(loader_train,loader_test,model=nn1_fgsm,algo_adv=fgsm,
-                               epsilon=0.01,n_epoch=30,lr=0.1)
-            
+######################
+## FGSM: Attack
+######################
+        
+print("FGSM: Attacked error rate:", 
+      epoch_adv(dataloader=loader_test, hypothesis=nn1, 
+                optimizer = None,  
+                device = device, 
+                mode = None,
+                algo_adv = fgsm,
+                epsilon = 8/255)[0])
+
+
+######################
+## FGSM: Training
+######################
+
+
+nn1_fgsm = CNN()
+#optimizer = optim.SGD(nn1_fgsm.parameters(), lr=0.05)
     
-    
-    ######################
-    ## FGSM: Robuest Eval
-    ######################
-    
-    # clean_acc, robust_acc = benchmark(nn1,
-    #                                   dataset='cifar10',
-    #                                   threat_model='Linf',
-    #                                   eps = 8/255
-    #                                   )
-    
-    clean_acc_fgsm, robust_acc_fgsm = benchmark(nn1_fgsm,
-                                      dataset='cifar10',
-                                      threat_model='Linf',
-                                      eps = 8/255
-                                      )
-    
-    torch.save(nn1_fgsm, 'cifar10_nn1_fgsm_2.pkl')
+train_arr_fgsm = train_adv(loader_train,loader_test,model=nn1_fgsm,algo_adv=fgsm,
+                           epsilon=0.01,n_epoch=30,lr=0.1)
+        
+
+
+######################
+## FGSM: Robuest Eval
+######################
+
+# clean_acc, robust_acc = benchmark(nn1,
+#                                   dataset='cifar10',
+#                                   threat_model='Linf',
+#                                   eps = 8/255
+#                                   )
+
+clean_acc_fgsm, robust_acc_fgsm = benchmark(nn1_fgsm,
+                                  dataset='cifar10',
+                                  threat_model='Linf',
+                                  eps = 8/255
+                                  )
+
+torch.save(nn1_fgsm, 'cifar10_nn1_fgsm_2.pkl')
 #    nn1_fgsm = torch.load('cifar10_nn1_fgsm.pkl')
-    
-# 
-# pd.DataFrame(train_arr_fgsm)
-# import pandas as pd
+

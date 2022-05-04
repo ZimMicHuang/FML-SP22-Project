@@ -36,48 +36,48 @@ class CNN(torch.nn.Module):
         return x
 
 
-def main():
-    ######################
-    ## Set Up
-    ######################
+
+######################
+## Set Up
+######################
+
+
+BATCH_SIZE = 100
+
+df_train = datasets.CIFAR10(root=r'/tmp/data',download=True, train=True, 
+                            transform = transforms.ToTensor())
+df_test = datasets.CIFAR10(root=r'/tmp/data',download=True, train=False, 
+                            transform = transforms.ToTensor())
+loader_train = DataLoader(df_train, batch_size = BATCH_SIZE, shuffle=True)
+loader_test = DataLoader(df_test, batch_size = BATCH_SIZE, shuffle=True)
     
-    
-    BATCH_SIZE = 100
-    
-    df_train = datasets.CIFAR10(root=r'/tmp/data',download=True, train=True, 
-                                transform = transforms.ToTensor())
-    df_test = datasets.CIFAR10(root=r'/tmp/data',download=True, train=False, 
-                                transform = transforms.ToTensor())
-    loader_train = DataLoader(df_train, batch_size = BATCH_SIZE, shuffle=True)
-    loader_test = DataLoader(df_test, batch_size = BATCH_SIZE, shuffle=True)
-        
-    device = torch.device("cpu")
-    
-    
-    
-    ######################
-    ## Architecture
-    ######################
-    
-    nn1 = CNN()
-    
-    ######################
-    ## Standard Training
-    ######################
-    optimizer = optim.SGD(nn1.parameters(), lr=0.1)
-    nn1_standard_arr = train_standard(loader_train=loader_train, loader_test=loader_test,
-                                      model=nn1, n_epoch=10, opt=optim.SGD, lr=0.1)
-    
-    ######################
-    ## Standard Evaluation
-    ######################
-    
-    eval_standard(loader_test,model=nn1)
-    
-    ######################
-    ## Save Params
-    ######################
-    
-    torch.save(nn1, 'cifar10_nn1_standard.pkl')
-    nn1 = torch.load('cifar10_nn1_standard.pkl')
-    
+device = torch.device("cpu")
+
+
+
+######################
+## Architecture
+######################
+
+nn1 = CNN()
+
+######################
+## Standard Training
+######################
+optimizer = optim.SGD(nn1.parameters(), lr=0.1)
+nn1_standard_arr = train_standard(loader_train=loader_train, loader_test=loader_test,
+                                  model=nn1, n_epoch=10, opt=optim.SGD, lr=0.1)
+
+######################
+## Standard Evaluation
+######################
+
+eval_standard(loader_test,model=nn1)
+
+######################
+## Save Params
+######################
+
+torch.save(nn1, 'cifar10_nn1_standard.pkl')
+nn1 = torch.load('cifar10_nn1_standard.pkl')
+

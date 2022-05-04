@@ -111,55 +111,47 @@ def eval_test(model, device, test_loader):
 
 
 
-def main():
-    # init model, ResNet18() can be also used here for training
-    BATCH_SIZE = 100
+BATCH_SIZE = 100
+
+df_train = datasets.CIFAR10(root=r'/tmp/data',download=True, train=True, 
+                            transform = transforms.ToTensor())
+df_test = datasets.CIFAR10(root=r'/tmp/data',download=True, train=False, 
+                            transform = transforms.ToTensor())
+loader_train = DataLoader(df_train, batch_size = BATCH_SIZE, shuffle=True)
+loader_test = DataLoader(df_test, batch_size = BATCH_SIZE, shuffle=True)
     
-    df_train = datasets.CIFAR10(root=r'/tmp/data',download=True, train=True, 
-                                transform = transforms.ToTensor())
-    df_test = datasets.CIFAR10(root=r'/tmp/data',download=True, train=False, 
-                                transform = transforms.ToTensor())
-    loader_train = DataLoader(df_train, batch_size = BATCH_SIZE, shuffle=True)
-    loader_test = DataLoader(df_test, batch_size = BATCH_SIZE, shuffle=True)
-        
-    device = torch.device("cpu")
+device = torch.device("cpu")
 
-    model = torch.load('cifar10_nn1_standard.pkl')
-    optimizer = optim.SGD(model.parameters(), lr=0.1)
+model = torch.load('cifar10_nn1_standard.pkl')
+optimizer = optim.SGD(model.parameters(), lr=0.1)
+
+train_arr_lipreg = []
+for epoch in range(1, 10):
     
-    train_arr_lipreg = []
-    for epoch in range(1, 10):
-        
-        # adversarial training
-        train( model, device, loader_train, optimizer, epoch, lr=0.1, epsilon=8/255, num_steps=10, beta=3)
+    # adversarial training
+    train( model, device, loader_train, optimizer, epoch, lr=0.1, epsilon=8/255, num_steps=10, beta=3)
 
-        # evaluation on natural examples
-        print('================================================================')
-        train_loss, training_accuracy = eval_train(model, device, loader_train)
-        test_loss, test_accuracy = eval_test(model, device, loader_test)
-        print('================================================================')
-        
-        train_arr_lipreg.append([training_accuracy,train_loss,test_accuracy,test_loss])
-
-        # # save checkpoint
-        # if epoch % args.save_freq == 0:
-        #     torch.save(model.state_dict(),
-        #                os.path.join(model_dir, 'model-wideres-epoch{}.pt'.format(epoch)))
-        #     torch.save(optimizer.state_dict(),
-        #                os.path.join(model_dir, 'opt-wideres-checkpoint_epoch{}.tar'.format(epoch)))
+    # evaluation on natural examples
+    print('================================================================')
+    train_loss, training_accuracy = eval_train(model, device, loader_train)
+    test_loss, test_accuracy = eval_test(model, device, loader_test)
+    print('================================================================')
     
-    torch.save(model, 'cifar10_lip_reg.pkl')
+    train_arr_lipreg.append([training_accuracy,train_loss,test_accuracy,test_loss])
 
-    from robustbench.eval import benchmark
-    clean_acc_lipreg, robust_acc_lipreg = benchmark(model,
-                                      dataset='cifar10',
-                                      threat_model='Linf',
-                                      eps = 8/255
-                                      )
-    
+    # # save checkpoint
+    # if epoch % args.save_freq == 0:
+    #     torch.save(model.state_dict(),
+    #                os.path.join(model_dir, 'model-wideres-epoch{}.pt'.format(epoch)))
+    #     torch.save(optimizer.state_dict(),
+    #                os.path.join(model_dir, 'opt-wideres-checkpoint_epoch{}.tar'.format(epoch)))
 
+torch.save(model, 'cifar10_lip_reg.pkl')
 
-if __name__ == '__main__':
-    main()
+from robustbench.eval import benchmark
+clean_acc_lipreg, robust_acc_lipreg = benchmark(model,
+                                  dataset='cifar10',
+                                  threat_model='Linf',
+                                  eps = 8/255
+                                  )
 
-# pd.DataFrame(train_arr_lipreg)
